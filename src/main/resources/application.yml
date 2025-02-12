@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: mask-word
+app:
+  application:
+    name: '@project.name@'
+    version: '@project.version@'
+    timestamp: '@timestamp@'
+  log:
+    level: INFO|DEBUG
+    package-name: io.github.avew.mask
+    service-name: ${spring.application.name}
+    filename: ${spring.application.name}
+    directory: .\logs
+    pattern:
+      console: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS,Asia/Jakarta}) %clr[${spring.application.name},%thread,%X{traceId:-},%X{spanId:-}] %highlight(%-5p) %clr(%logger{35}){blue} %clr(%msg){faint}%n'
+      file: '%d{yyyy-MM-dd HH:mm:ss.SSS,Asia/Jakarta} [${spring.application.name},%thread,%X{traceId:-},%X{spanId:-}] %-5p %logger{35} %m%n'
+    mask-word: password,username

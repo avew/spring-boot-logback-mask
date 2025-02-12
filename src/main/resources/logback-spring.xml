@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+
+    <springProperty scope="context" name="log_console_pattern" source="app.log.pattern.console"/>
+    <springProperty scope="context" name="log_file_pattern" source="app.log.pattern.file"/>
+    <springProperty scope="context" name="log_mask_word" source="app.log.mask-word"/>
+    <springProperty scope="context" name="log_level" source="app.log.level"/>
+    <springProperty scope="context" name="log_dir" source="app.log.directory"/>
+    <springProperty scope="context" name="log_filename" source="app.log.filename"/>
+    <springProperty scope="context" name="log_service_name" source="app.log.service-name"/>
+    <springProperty scope="context" name="log_package_name" source="app.log.package-name"/>
+    <springProperty scope="context" name="app_name" source="app.application.name"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>utf-8</charset>
+            <layout class="io.github.avew.mask.MaskingLog">
+                <patternsProperty>${log_mask_word}</patternsProperty>
+                <pattern>${log_console_pattern}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_dir}/${app_name}/${log_filename}.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <FileNamePattern>${log_dir}/${app_name}/archived/${log_filename}.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <!-- Max file size is 10MB -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- Keep a maximum of 30 days of log files -->
+            <maxHistory>30</maxHistory>
+            <!-- Total size of all log files can go up to 1GB -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="io.github.avew.mask.MaskingLog">
+                <patternsProperty>${log_mask_word}</patternsProperty>
+                <pattern>${log_file_pattern}</pattern>
+            </layout>
+        </encoder>
+
+        <filter class="io.github.avew.mask.LogLevel">
+            <levels>INFO|DEBUG</levels>
+        </filter>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log_dir}/${app_name}/${log_filename}-error.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <FileNamePattern>${log_dir}/${app_name}/archived/${log_filename}-error.%d{yyyy-MM-dd}.%i.log.gz
+            </FileNamePattern>
+            <!-- Max file size is 10MB -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- Keep a maximum of 30 days of log files -->
+            <maxHistory>30</maxHistory>
+            <!-- Total size of all log files can go up to 1GB -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="io.github.avew.mask.MaskingLog">
+                <patternsProperty>${log_mask_word}</patternsProperty>
+                <pattern>${log_file_pattern}</pattern>
+            </layout>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <logger name="${log_package_name}" level="${log_level}"/>
+
+    <logger name="sun" level="WARN"/>
+    <logger name="javax" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="_org.springframework.web" level="WARN"/>
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <root level="${log_level}">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR"/>
+    </root>
+
+</configuration>
