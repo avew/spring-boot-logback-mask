@@ -21,7 +21,7 @@ public class MaskTest {
         MaskWord maskWord = new MaskWord("npwp,nama,alamat", ":", "([\\w]+)");
         String data = "{\"npwp\":\"0717166367077000\",\"nama\":\"Asep Dadang\",\"alamat\":\"Jl. Kebon Jeruk No. 1\"}";
         String mask = maskWord.mask(data.replaceAll("\"", ""));
-        System.out.println(mask);
+        assertEquals("{npwp:****************,nama:**** Dadang,alamat:**. Kebon Jeruk No. 1}", mask);
     }
 
     @Test
@@ -29,6 +29,6 @@ public class MaskTest {
         User user = new User("avew", "123456");
         ObjectMapper mapper = new ObjectMapper();
         String result = mapper.writeValueAsString(user);
-        System.out.println(result);
+        assertEquals("{\"username\":\"avew\",\"password\":\"***\"}", result);
     }
 }
