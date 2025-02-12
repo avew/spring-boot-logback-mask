@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @Slf4j
-public class DemoMaskLogbackApplication implements CommandLineRunner {
+public class Application implements CommandLineRunner {
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoMaskLogbackApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Override

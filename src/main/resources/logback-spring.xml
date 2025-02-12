@@ -21,7 +21,7 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <charset>utf-8</charset>
-            <layout class="io.github.avew.mask.MaskingLog">
+            <layout class="io.github.avew.mask.logback.LogbackMask">
                 <patternsProperty>${log_mask_word}</patternsProperty>
                 <pattern>${log_console_pattern}</pattern>
             </layout>
@@ -43,13 +43,13 @@
         </rollingPolicy>
 
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="io.github.avew.mask.MaskingLog">
+            <layout class="io.github.avew.mask.logback.LogbackMask">
                 <patternsProperty>${log_mask_word}</patternsProperty>
                 <pattern>${log_file_pattern}</pattern>
             </layout>
         </encoder>
 
-        <filter class="io.github.avew.mask.LogLevel">
+        <filter class="io.github.avew.mask.logback.LogbackLevel">
             <levels>INFO|DEBUG</levels>
         </filter>
     </appender>
@@ -69,7 +69,7 @@
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="io.github.avew.mask.MaskingLog">
+            <layout class="io.github.avew.mask.logback.LogbackMask">
                 <patternsProperty>${log_mask_word}</patternsProperty>
                 <pattern>${log_file_pattern}</pattern>
             </layout>

@@ -1,11 +1,11 @@
-package io.github.avew.mask;
+package io.github.avew.mask.logback;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.filter.Filter;
 import ch.qos.logback.core.spi.FilterReply;
 
-public class LogLevel extends Filter<ILoggingEvent> {
+public class LogbackLevel extends Filter<ILoggingEvent> {
     private String levels;
 
     public String getLevels() {
